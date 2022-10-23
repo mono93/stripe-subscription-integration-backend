@@ -1,0 +1,1 @@
+export const SYSTEM_TOKEN = 'authorization#123'
