@@ -1,0 +1,55 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is swagger documentation for stripe subscription APIs",
+        "version": "1.0.0",
+        "title": "Stripe subscription API",
+        "contact": {
+            "email": "monojeetsaha1993@gmail.com"
+        }
+    },
+    "schemes": [
+        "http"
+    ],
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "securityDefinitions": {
+        "bearerAuth": {
+            "type": "apiKey",
+            "name": "x-project-at",
+            "scheme": "bearer",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/products/showProducts": {
+            "get": {
+                "summary": "Get all the products",
+                "description": "Get all the products",
+                "produces": [
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Un authorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
