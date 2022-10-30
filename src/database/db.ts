@@ -1,10 +1,10 @@
 import { Pool } from "pg";
 
 const pool = new Pool({
-    host: '',
-    database: '',
-    user: '',
-    password: '',
+    host: '127.0.0.1',
+    database: 'stripe_subscription_db',
+    user: 'postgres',
+    password: '@Monojit1993',
     port: 5432
 })
 
