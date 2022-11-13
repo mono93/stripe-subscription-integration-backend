@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-import fs from 'fs';
 import swaggerUi from "swagger-ui-express";
 import { ProductRoutes } from './routes';
 import swaggerDocument from "./documentation/swagger.json";
@@ -20,4 +19,4 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/products', ProductRoutes);
 
 app.get('/', (req: Request, res: Response) => { res.send('Explore APIs') })
-app.listen(port, () => { console.log(`Example app listening at http://localhost:${port}`) })
+app.listen(port, () => { console.log(`App listening at http://localhost:${port}`) })
