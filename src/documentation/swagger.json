@@ -1,5 +1,5 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.1",
     "info": {
         "description": "This is swagger documentation for stripe subscription APIs",
         "version": "1.0.0",
@@ -8,27 +8,31 @@
             "email": "monojeetsaha1993@gmail.com"
         }
     },
-    "schemes": [
-        "http"
-    ],
-    "host": "localhost:8080",
-    "basePath": "/api",
-    "securityDefinitions": {
-        "bearerAuth": {
-            "type": "apiKey",
-            "name": "x-project-at",
-            "scheme": "bearer",
-            "in": "header"
+    "servers": [
+        {
+            "url": "http://localhost:8080/api-docs/",
+            "description": "Local Server"
         }
-    },
+    ],
+    "tags": [
+        {
+            "name": "products",
+            "description": "API for retrieving product data"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "paths": {
         "/products/showProducts": {
             "get": {
-                "summary": "Get all the products",
-                "description": "Get all the products",
-                "produces": [
-                    "application/json"
+                "tags": [
+                    "products"
                 ],
+                "description": "Get all the products",
                 "security": [
                     {
                         "bearerAuth": []
@@ -37,16 +41,87 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "string"
+                        "description": "Successful Operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/responseSchemes/products"
+                                }
+                            }
                         }
                     },
                     "401": {
-                        "description": "Un authorized",
-                        "schema": {
+                        "description": "Un Authorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/responseSchemes/unAuth"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "apiKey",
+                "name": "x-project-at",
+                "scheme": "bearer",
+                "in": "header"
+            }
+        },
+        "responseSchemes": {
+            "products": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "subscriptionDetails": {
+                        "type": "array",
+                        "items": {
                             "type": "string"
                         }
+                    },
+                    "productDetails": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "product_id": {
+                                    "type": "string"
+                                },
+                                "product_price_id": {
+                                    "type": "string"
+                                },
+                                "product_name": {
+                                    "type": "string"
+                                },
+                                "product_description": {
+                                    "type": "string"
+                                },
+                                "product_price": {
+                                    "type": "number"
+                                },
+                                "product_is_active": {
+                                    "type": "boolean"
+                                },
+                                "product_frequency": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "unAuth": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
                     }
                 }
             }

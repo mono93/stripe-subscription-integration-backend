@@ -13,7 +13,11 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
     next();
 });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const options = {
+    customSiteTitle: "Stripe Implementation"
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 
 app.use('/api/products', ProductRoutes);
