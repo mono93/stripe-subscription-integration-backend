@@ -1,4 +1,4 @@
-import { Router } from 'express';
 import ProductRoutes from "./products";
+import SubscriptionRoutes from "./subscriptions";
 
-export { ProductRoutes }
+export { ProductRoutes, SubscriptionRoutes }

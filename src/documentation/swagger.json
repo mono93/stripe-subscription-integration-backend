@@ -10,14 +10,18 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8080/api-docs/",
-            "description": "Local Server"
+            "url": "http://localhost:8080/api/",
+            "description": "Local server"
         }
     ],
     "tags": [
         {
             "name": "products",
             "description": "API for retrieving product data"
+        },
+        {
+            "name": "subscription",
+            "description": "API for managing subscription"
         }
     ],
     "consumes": [
@@ -33,6 +37,42 @@
                     "products"
                 ],
                 "description": "Get all the products",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/responseSchemes/products"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Un Authorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/responseSchemes/unAuth"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/subscription/createSubscription": {
+            "post": {
+                "tags": [
+                    "subscription"
+                ],
+                "description": "Create subscription",
                 "security": [
                     {
                         "bearerAuth": []

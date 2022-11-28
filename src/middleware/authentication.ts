@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { SYSTEM_TOKEN } from '../config/config';
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
 
@@ -9,7 +8,7 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
         return res.status(401).send({ message: 'not authorized' });
     } else {
 
-        if (token === SYSTEM_TOKEN) {
+        if (token === process.env.SYSTEM_TOKEN) {
             next()
         } else {
             return res.status(401).send({ message: 'not authorized' })
