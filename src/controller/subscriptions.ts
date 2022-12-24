@@ -9,25 +9,28 @@ export default class SubscriptionController {
         try {
 
             const customer = await stripe.customers.create({
-                name: req.body.name,
-                source: req.body.source,
+                name: 'Monojit Saha',
+                email: 'monojeetsaha1993@gmail.com',
+                source: req.body.token.id,
                 address: {
-                    line1: req.body.line1,
-                    line2: req.body.line2,
-                    city: req.body.city,
-                    state: req.body.state,
-                    postal_code: req.body.postal_code
+                    line1: req.body.billing_address_line1.trim(),
+                    line2: req.body.billing_address_line2.trim(),
+                    city: req.body.billing_address_city.trim(),
+                    state: req.body.billing_address_state.trim(),
+                    postal_code: req.body.billing_address_zip.trim()
                 }
             })
 
             await stripe.subscriptions.create({
                 customer: customer.id,
                 items: [
-                    {
-                        plan: req.body.planId
-                    }
-                ]
+                    { price: req.body.price_id },
+                ],
             });
+
+            res.status(200).send({
+                message: true
+            })
 
 
         } catch (error: any) {

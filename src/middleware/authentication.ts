@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
 

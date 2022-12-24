@@ -6,6 +6,9 @@ import swaggerDocument from "./documentation/swagger.json";
 const app = express();
 const port = 8080;
 
+app.use(express.json());
+app.use(express.urlencoded());
+
 app.use(function (req: Request, res: Response, next: NextFunction) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', "*");
