@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
+import { query } from '../database/db';
 
 export default class SubscriptionController {
     public async createSubscription(req: Request, res: Response) {
@@ -11,7 +12,7 @@ export default class SubscriptionController {
             const customer = await stripe.customers.create({
                 name: 'Monojit Saha',
                 email: 'monojeetsaha1993@gmail.com',
-                source: req.body.token.id,
+                source: req.body.token,
                 address: {
                     line1: req.body.billing_address_line1.trim(),
                     line2: req.body.billing_address_line2.trim(),
@@ -21,20 +22,39 @@ export default class SubscriptionController {
                 }
             })
 
-            await stripe.subscriptions.create({
+            const subscription = await stripe.subscriptions.create({
                 customer: customer.id,
                 items: [
                     { price: req.body.price_id },
                 ],
             });
 
-            res.status(200).send({
-                message: true
-            })
+            let payload = {
+                subscription_id: subscription.id,
+                product_id: subscription.items.data[0].price.product,
+                receipt_url: '',
+                initial_charge_id: '',
+                customer_id: customer.id,
+                start_date: subscription.current_period_start,
+                end_date: subscription.current_period_end,
+            }
+
+            console.log(JSON.stringify(payload))
+
+            const queryRes: any = await query(`SELECT public.fn_manage_subscription($1)`, [JSON.stringify(payload)]);
+
+            if (queryRes?.rows[0]['fn_manage_subscription'].msg_id === 1) {
+                res.status(200).send({ message: 'subscription created successfully' })
+            } else {
+                await stripe.customers.del(customer.id);
+                res.status(500).send({ message: 'subscription can\'t be created' })
+            }
+
+
 
 
         } catch (error: any) {
-            return res.status(500).send({ message: error.message })
+            res.status(500).send({ message: error.message })
         }
     }
 }
